@@ -5,7 +5,8 @@
 import os
 
 mode = input("Enter 1 for automatic mode or 2 for customizable")
-if mode != "1" or mode !="2":
+
+if mode != "1" and mode !="2":
     print("Please enter 1 or 2")
     mode = input("Enter 1 for automatic mode or 2 for customizable")
 
