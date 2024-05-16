@@ -1,0 +1,1 @@
+/home/articulated_ws/src/mobile_bot/launch/rsp.launch.py

@@ -1,0 +1,2 @@
+Invoking command in '/home/articulated_ws/build/cpp_pub': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/articulated_ws/src/cpp_pub -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/articulated_ws/install/cpp_pub
+Invoked command in '/home/articulated_ws/build/cpp_pub' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/articulated_ws/src/cpp_pub -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/articulated_ws/install/cpp_pub
