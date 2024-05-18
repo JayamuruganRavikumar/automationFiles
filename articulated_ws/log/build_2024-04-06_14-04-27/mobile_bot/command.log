@@ -1,6 +1,0 @@
-Invoking command in '/home/articulated_ws/build/mobile_bot': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/articulated_ws/src/mobile_bot -DCMAKE_INSTALL_PREFIX=/home/articulated_ws/install/mobile_bot
-Invoked command in '/home/articulated_ws/build/mobile_bot' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/articulated_ws/src/mobile_bot -DCMAKE_INSTALL_PREFIX=/home/articulated_ws/install/mobile_bot
-Invoking command in '/home/articulated_ws/build/mobile_bot': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/articulated_ws/build/mobile_bot -- -j12 -l12
-Invoked command in '/home/articulated_ws/build/mobile_bot' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/articulated_ws/build/mobile_bot -- -j12 -l12
-Invoking command in '/home/articulated_ws/build/mobile_bot': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/articulated_ws/build/mobile_bot
-Invoked command in '/home/articulated_ws/build/mobile_bot' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/articulated_ws/build/mobile_bot
