@@ -13,8 +13,6 @@ RUN apt-get -qq update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /root
-
-RUN touch .Xauthority
-RUN echo "xauth add $VARDPY${DISPLAY: -1} $VARPROTO $VARHEX" > .bashrc
-RUN xauth list
+RUN touch /root/.Xauthority
+COPY bash_lines.txt /tmp/
+RUN cat /tmp/bash_lines.txt >> /root/.bashrc
