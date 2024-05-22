@@ -1,6 +1,7 @@
 #!/bin/zsh
 IFS=' ' read -r VARDPY VARPROTO VARHEX <<< $(xauth list)
-container_name="ros-$1"
+distro_name=$1
+container_name="ros-$distro_name"
 
 if [ "$(sudo docker ps -a --quiet --filter status=running --filter name=$container_name)" ]; then
 	echo "Attaching into $container_name"
@@ -8,12 +9,12 @@ if [ "$(sudo docker ps -a --quiet --filter status=running --filter name=$contain
     exit 0
 fi
 
-docker_args+=("-v ~/Documents/docker_storage/ros_$1:/home")
+docker_args+=("-v ~/Documents/docker_storage/$container_name:/home")
 sudo docker run -it --privileged --rm \
 			--net=host \
 			--env="DISPLAY"\
 			-e VARDPY=$VARDPY -e VARPROTO=$VARPROTO -e VARHEX=$VARHEX \
-			-v ~/Documents/docker_storage/ros_foxy:/home \
+			-v ~/Documents/docker_storage/$container_name:/home \
 			--device=/dev/dri:/dev/dri \
-			--name="$container_name" ros:foxy
+			--name="$container_name" ros:$distro_name
 
