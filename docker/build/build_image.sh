@@ -10,7 +10,7 @@ if [ -d ~/Documents/docker_storage/ros_$distro_name ]
 then
 	echo "Folder exists"
 else
-	mkdir -p ~/Documents/docker_storage/ros_$distro_name/ros2_ws/src/
+	mkdir -p ~/Documents/docker_storage/ros-$distro_name/ros2_ws/src/
 fi
 
 sudo docker build -t ros:$distro_name -f Dockerfile.ros2_$distro_name .
