@@ -9,11 +9,16 @@ if [ "$(sudo docker ps -a --quiet --filter status=running --filter name=$contain
     exit 0
 fi
 
-docker_args+=("-v ~/Documents/docker_storage/$container_name:/home")
+docker_args+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
+docker_args+=("-e NVIDIA_VISIBLE_DEVICES=all")
+#docker_args+=("-v ~/Documents/docker_storage/$container_name:/home")
+
 sudo docker run -it --privileged --rm \
+			--gpus all \
 			--net=host \
 			--env="DISPLAY"\
 			-e VARDPY=$VARDPY -e VARPROTO=$VARPROTO -e VARHEX=$VARHEX \
+			${docker_args[@]} \
 			-v ~/Documents/docker_storage/$container_name:/home \
 			--device=/dev/dri:/dev/dri \
 			--name="$container_name" ros:$distro_name

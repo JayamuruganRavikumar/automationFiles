@@ -23,15 +23,14 @@ RUN apt-get -qq update \
     ros-foxy-rviz-common \
     ros-foxy-rviz-default-plugins \
     ros-foxy-sensor-msgs \
+	ros-foxy-v4l2-camera \
 	python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Azure kinect
 
-RUN add-apt-repository ppa:deadsnakes/ppa
 RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-
 RUN curl -sSL https://packages.microsoft.com/config/ubuntu/18.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft-prod.list
 
 RUN apt-get -qq update \
@@ -39,7 +38,6 @@ RUN apt-get -qq update \
     libk4a1.4 \
     libk4a1.4-dev \
     k4a-tools \
-	python3.10 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

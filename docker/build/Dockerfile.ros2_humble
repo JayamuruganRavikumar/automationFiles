@@ -19,6 +19,7 @@ RUN apt-get -qq update \
     ros-foxy-rviz-common \
     ros-foxy-rviz-default-plugins \
     ros-foxy-sensor-msgs \
+	ros-humble-v4l2-camera \
 	python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
