@@ -3,13 +3,14 @@
 distro_name=$1
 nvidia=$2
 
-if [ $nvidia = 1 ]
+if [ "$nvidia" -eq 1 ]
 then
 	echo "Building ros$distro_name using Dockerfile.ros2_$distro_name.nvidia"
 else
 	echo "Building ros$distro_name using Dockerfile.ros2_$distro_name"
 fi
 
+# add source to image .bashrc
 echo "source /opt/ros/$distro_name/setup.bash" >> bash_lines.txt
 
 # Check if directory exists
@@ -20,7 +21,7 @@ else
 	mkdir -p ~/Documents/docker_storage/ros-$distro_name/ros2_ws/src/
 fi
 
-if [ $nvidia = 1 ]
+if [ "$nvidia" -eq 1 ]
 then
 	sudo docker build -t ros:$distro_name-nvidia -f Dockerfile.ros2_$distro_name.nvidia .
 else
