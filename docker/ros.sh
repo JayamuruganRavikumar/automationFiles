@@ -3,10 +3,18 @@ IFS=' ' read -r VARDPY VARPROTO VARHEX <<< $(xauth list)
 distro_name=$1
 nvidia=$2
 
-if [ $nvidia -eq 1 ];then
-	container_name="ros-$distro_name-nvidia"
+if [ -z "$distro_name" ];then
+	echo "$(tput setaf 3)--------Defaulting to humble distro--------$(tput sgr0)"
+	distro_name="humble"
 else
-	echo "$(tput setaf 6)Defaulting to ros-$distro_name"
+	echo "$(tput setaf 3)--------Using ros:$distro_name image--------$(tput sgr0)"
+fi
+
+if [ "$nvidia" -eq 1 ] && [ ! -z "$nvidia" ];then
+	container_name="ros-$distro_name-nvidia"
+	echo "$(tput setaf 6)--------Running ros-$distro_name container--------$(tput sgr0)"
+else
+	echo "$(tput setaf 6)--------Defaulting to ros-$distro_name container--------$(tput sgr0)"
 	container_name="ros-$distro_name"
 fi
 
