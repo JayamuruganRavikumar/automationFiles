@@ -19,7 +19,7 @@ else
 fi
 
 if [ "$(sudo docker ps -a --quiet --filter status=running --filter name=$container_name)" ]; then
-	echo "$(tput setaf 6)--------Attaching into $container_name--------$(tput sgr0)"
+	echo "$(tput setaf 6)--------Attaching into existing $container_name--------$(tput sgr0)"
     sudo docker exec -i -t $container_name /bin/bash
     exit 0
 fi
