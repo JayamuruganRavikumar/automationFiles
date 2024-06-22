@@ -2,6 +2,9 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG ACCEPT_EULA=y
+ARG USER_GID=1000
+ARG USERNAME=humble
+ARG USER_UID=1000
 
 
 ENV SHELL /bin/bash
@@ -25,6 +28,7 @@ RUN apt-get -qq update \
 	vim \
     ca-certificates \
     software-properties-common \
+	usbutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -45,12 +49,42 @@ RUN apt-get -qq update \
 RUN apt-get -qq update \
     && apt-get -qq upgrade \
     && apt-get -qq install \
-	ros-humbel-behaviortree-cpp \
 	ros-humble-nav2-behaviors \
 	ros-humble-nav2-bt-navigator \
+	ros-humble-behaviortree-cpp \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+#installing k4a
+
+RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN echo "deb [arch=arm64] https://packages.microsoft.com/ubuntu/18.04/multiarch/prod bionic main" >> /etc/apt/sources.list.d/microsoft-prod.list
+RUN wget mirrors.kernel.org/ubuntu/pool/universe/libs/libsoundio/libsoundio1_1.1.0-1_amd64.deb
+RUN dpkg -i libsoundio1_1.1.0-1_amd64.deb
+
+RUN apt-get -qq update \
+	&& apt-get install \
+	libk4a1.4 \
+	libk4a1.4-dev \
+	k4a-tools \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
+
 RUN touch /root/.Xauthority
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 COPY bash_lines.txt /tmp/
 RUN cat /tmp/bash_lines.txt >> /root/.bashrc
+
+# add user
+
+RUN groupadd --gid ${USER_GID} ${USERNAME}
+RUN useradd --no-log-init --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} 
+
+RUN echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
+    && chmod 0440 /etc/sudoers.d/${USERNAME} \
+    && adduser ${USERNAME} video && adduser ${USERNAME} plugdev && adduser ${USERNAME} sudo
+
+USER ${USERNAME}
+

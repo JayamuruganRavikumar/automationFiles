@@ -8,9 +8,11 @@ DOCKER_BUILDKIT=1
 if [ "$nvidia" -eq 1 ]
 then
 	echo "Building ros$distro_name using Dockerfile.ros2_$distro_name.nvidia"
+	echo "Creating a directory for ros files"
 	mkdir -p ~/Documents/docker_storage/ros-$distro_name-nvidia/ros2_ws/src/
 else
 	echo "Building ros$distro_name using Dockerfile.ros2_$distro_name"
+	echo "Creating a directory for ros files"
 	mkdir -p ~/Documents/docker_storage/ros-$distro_name/ros2_ws/src/
 fi
 

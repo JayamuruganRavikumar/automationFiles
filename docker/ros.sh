@@ -20,30 +20,38 @@ fi
 
 if [ "$(sudo docker ps -a --quiet --filter status=running --filter name=$container_name)" ]; then
 	echo "$(tput setaf 6)--------Attaching into existing $container_name--------$(tput sgr0)"
-    sudo docker exec -i -t $container_name /bin/bash
+    sudo docker exec -i -t \
+		--user="$distro_name" \
+		$container_name \
+		/bin/bash
+
     exit 0
 fi
 
 start_docker(){
 
 	local name=$1
+	local distro=$2
 	docker_args+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
 	docker_args+=("-e NVIDIA_VISIBLE_DEVICES=all")
 	sudo docker run -it --privileged --rm \
 				--gpus all \
 				--net=host \
 				--env="DISPLAY"\
+				--user="$distro" \
 				-e VARDPY=$VARDPY -e VARPROTO=$VARPROTO -e VARHEX=$VARHEX \
 				"${docker_args[@]}" \
-				-v ~/Documents/docker_storage/$container_name:/home \
+				-v ~/Documents/docker_storage/$container_name:/home/$distro \
 				--device=/dev/dri:/dev/dri \
-				--name="$container_name" ros:"$name"
+				--name="$container_name" ros:"$name" \
+				/bin/bash
 }
 
 docker_args=()
+
 if [ "$nvidia" -eq 1 ];then
 
-	start_docker "$distro_name-nvidia"
+	start_docker "$distro_name-nvidia" "$distro_name"
 
 else
 	start_docker "$distro_name"
