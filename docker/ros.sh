@@ -22,7 +22,6 @@ if [ "$(sudo docker ps -a --quiet --filter status=running --filter name=$contain
 	echo "$(tput setaf 1)--------Found runnning $container_name container--------$(tput sgr0)"
 	echo "$(tput setaf 6)--------Attaching into existing $container_name--------$(tput sgr0)"
     sudo docker exec -i -t \
-		--user="$distro_name" \
 		$container_name \
 		/bin/bash
 
