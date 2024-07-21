@@ -41,8 +41,10 @@ start_docker(){
 				"${docker_args[@]}" \
 				-v ~/Documents/docker_storage/$container_name:/home/ \
 				--device=/dev/dri:/dev/dri \
+				--entrypoint='' \
 				--name="$container_name" ros:"$name" \
 				/bin/bash
+
 }
 
 docker_args=()

@@ -12,3 +12,4 @@
 - Reruning the `./ros.sh <distro name> <1>` will attach a container.
 
 - add `alias launchDocker="zsh ~/Documents/automationFiles/docker/ros.sh"` to your bashrc/zshrc to launch your container with `launchDocker <distro name> <1>`.
+
