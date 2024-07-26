@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.4.1-devel-ubuntu22.04 
+FROM nvidia/cuda:12.4.1-devel-ubuntu20.04 
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG ACCEPT_EULA=y
@@ -40,7 +40,8 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o 
 RUN apt-get -qq update \
     && apt-get -qq upgrade \
     && apt-get -qq install \
-    ros-humble-desktop \
+    ros-foxy-desktop \
+	python3-argcomplete \
 	ros-dev-tools \
     python3-rosdep \
 	python3-pip \
@@ -50,41 +51,29 @@ RUN apt-get -qq update \
 RUN apt-get -qq update \
     && apt-get -qq upgrade \
     && apt-get -qq install \
-	ros-humble-plansys2-* \
-	ros-humble-nav2-behaviors \
-	ros-humble-nav2-bt-navigator \
-	ros-humble-behaviortree-cpp \
-	ros-humble-v4l2-camera \
+	ros-foxy-v4l2-camera \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-#installing k4a
+# Azure kinect
 
-RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb && \
-    wget mirrors.kernel.org/ubuntu/pool/universe/libs/libsoundio/libsoundio1_1.1.0-1_amd64.deb && \
-	apt-get -qq update && \
-	apt-get -qq install libjack-jackd2-0 && \
-    dpkg -i libsoundio1_1.1.0-1_amd64.deb
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl -sSL https://packages.microsoft.com/config/ubuntu/18.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft-prod.list
 
 RUN apt-get -qq update \
-	&& apt-get install \
-	libk4a1.4 \
-	libk4a1.4-dev \
-	k4a-tools \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
+    && apt-get -qq install \
+    libk4a1.4 \
+    libk4a1.4-dev \
+    k4a-tools \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Add microsoft repo for jammy to prevent broken apt
-
-RUN  mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.bak
-RUN wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor - | sudo tee /usr/share/keyrings/microsoft.gpg
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/microsoft.list
-
+# cv
+RUN pip install \
+	opencv-python \
+	opencv-contrib-python \
+	mediapipe 
 
 RUN touch /root/.Xauthority
-RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 COPY bash_lines.txt /tmp/
 RUN cat /tmp/bash_lines.txt >> /root/.bashrc
-
